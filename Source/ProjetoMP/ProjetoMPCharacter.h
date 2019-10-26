@@ -29,6 +29,16 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	/*Atributos do Personagem*/
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Attributes")
+	float Life = 100;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
+	float Stamina = 100;
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	float GetLife();
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void SetLife(float NewLife);
+
 protected:
 
 	/** Resets HMD orientation in VR. */

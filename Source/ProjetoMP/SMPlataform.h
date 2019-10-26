@@ -16,8 +16,15 @@ class PROJETOMP_API ASMPlataform : public AStaticMeshActor
 public:
 	ASMPlataform();
 		virtual void Tick(float DeltaTime) override;
+		virtual void BeginPlay() override;
+
+		UPROPERTY(EditAnywhere, Meta = (MakeEditWidget = true))
+		FVector TargetLocation;
 
 		UPROPERTY(EditAnywhere)
 		float SpeedPlataform = 20;
-	
+
+private:
+	FVector GlobalStartLocation;
+	FVector GlobalTargetLocation;
 };

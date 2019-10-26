@@ -11,12 +11,32 @@ ASMPlataform::ASMPlataform()
 void ASMPlataform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	FVector Location = GetActorLocation();
+
+	float JourneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
+	float JourneyTravelled = (Location - GlobalStartLocation).Size();
+
+	if (JourneyTravelled >= JourneyLength)
+	{
+		FVector Swap = GlobalStartLocation;
+		GlobalStartLocation = GlobalTargetLocation;
+		GlobalTargetLocation = Swap;
+	}
+
+	FVector Direction = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
+	Location += DeltaTime * SpeedPlataform * Direction;
+	SetActorLocation(Location);
+}
+
+void ASMPlataform::BeginPlay()
+{
+	Super::BeginPlay();
 	if (HasAuthority())
 	{
-		FVector Location = GetActorLocation();
-
-		Location += FVector(DeltaTime * SpeedPlataform, 0, 0);
-
-		SetActorLocation(Location); 
+		SetReplicates(true);
+		SetReplicateMovement(true);
 	}
+	GlobalStartLocation = GetActorLocation();
+	GlobalTargetLocation = GetTransform().TransformPosition(TargetLocation);
 }

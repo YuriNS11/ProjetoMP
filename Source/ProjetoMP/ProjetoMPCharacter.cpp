@@ -77,6 +77,16 @@ void AProjetoMPCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 }
 
 
+float AProjetoMPCharacter::GetLife()
+{
+	return Life;
+}
+
+void AProjetoMPCharacter::SetLife(float NewLife)
+{
+	Life = NewLife;
+}
+
 void AProjetoMPCharacter::OnResetVR()
 {
 	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
