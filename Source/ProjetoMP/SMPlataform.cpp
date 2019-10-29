@@ -11,22 +11,25 @@ ASMPlataform::ASMPlataform()
 void ASMPlataform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-	FVector Location = GetActorLocation();
 
-	float JourneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
-	float JourneyTravelled = (Location - GlobalStartLocation).Size();
-
-	if (JourneyTravelled >= JourneyLength)
+	if (ActiveTriggers > 0)
 	{
-		FVector Swap = GlobalStartLocation;
-		GlobalStartLocation = GlobalTargetLocation;
-		GlobalTargetLocation = Swap;
-	}
+		FVector Location = GetActorLocation();
 
-	FVector Direction = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
-	Location += DeltaTime * SpeedPlataform * Direction;
-	SetActorLocation(Location);
+		float JourneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
+		float JourneyTravelled = (Location - GlobalStartLocation).Size();
+
+		if (JourneyTravelled >= JourneyLength)
+		{
+			FVector Swap = GlobalStartLocation;
+			GlobalStartLocation = GlobalTargetLocation;
+			GlobalTargetLocation = Swap;
+		}
+
+		FVector Direction = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
+		Location += DeltaTime * SpeedPlataform * Direction;
+		SetActorLocation(Location);
+	}
 }
 
 void ASMPlataform::BeginPlay()
@@ -39,4 +42,17 @@ void ASMPlataform::BeginPlay()
 	}
 	GlobalStartLocation = GetActorLocation();
 	GlobalTargetLocation = GetTransform().TransformPosition(TargetLocation);
+}
+
+void ASMPlataform::AddActiveTrigger()
+{
+	ActiveTriggers++;
+}
+
+void ASMPlataform::RemoveActiveTrigger()
+{
+	if (ActiveTriggers > 0)
+	{
+		ActiveTriggers--;
+	}
 }
